@@ -1,0 +1,27 @@
+require_relative "lib/backwork/version"
+
+Gem::Specification.new do |spec|
+  spec.name          = "backwork-sdk"
+  spec.version       = Backwork::VERSION
+  spec.authors       = ["Backwork API"]
+  spec.email         = ["support@backworkhealth.com"]
+
+  spec.summary       = "Ruby SDK for the Backwork API"
+  spec.description   = "Ruby client library for the Backwork API - Medicare coverage policies, prior authorization requirements, and medical code lookups"
+  spec.homepage      = "https://github.com/tylergibbs1/backwork-ruby"
+  spec.license       = "MIT"
+  spec.required_ruby_version = ">= 2.7.0"
+  spec.metadata["allowed_push_host"] = "https://rubygems.org"
+
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = "https://github.com/tylergibbs1/backwork-ruby"
+  spec.metadata["rubygems_mfa_required"] = "true"
+
+  spec.files = Dir["lib/**/*", "README.md", "LICENSE"]
+  spec.require_paths = ["lib"]
+
+  spec.add_dependency "faraday", "~> 2.0"
+  spec.add_dependency "faraday-retry", "~> 2.0"
+
+  spec.add_development_dependency "rake", "~> 13.0"
+end

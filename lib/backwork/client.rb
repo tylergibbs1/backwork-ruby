@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Verity
+module Backwork
   class Client
-    DEFAULT_BASE_URL = 'https://verity.backworkai.com/api/v1'
+    DEFAULT_BASE_URL = 'https://backworkhealth.com/api/v1'
     DEFAULT_TIMEOUT = 30
 
     attr_reader :api_key, :base_url, :timeout
@@ -85,7 +85,7 @@ module Verity
       {
         'Authorization' => "Bearer #{api_key}",
         'Content-Type' => 'application/json',
-        'User-Agent' => "verity-ruby/#{Verity::VERSION}"
+        'User-Agent' => "backwork-ruby/#{Backwork::VERSION}"
       }
     end
 

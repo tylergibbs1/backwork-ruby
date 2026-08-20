@@ -27,10 +27,10 @@ jobs:
           bundler-cache: true
 
       - name: Syntax check
-        run: ruby -c lib/verity.rb
+        run: ruby -c lib/backwork.rb
 
       - name: Build gem
-        run: gem build verity-sdk.gemspec
+        run: gem build backwork-sdk.gemspec
 
       - name: Verify load path
-        run: bundle exec ruby -Ilib -e "require 'verity'; puts Verity::VERSION"
+        run: bundle exec ruby -Ilib -e "require 'backwork'; puts Backwork::VERSION"
