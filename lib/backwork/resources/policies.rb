@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Verity
+module Backwork
   module Resources
     class Policies
       def initialize(client)

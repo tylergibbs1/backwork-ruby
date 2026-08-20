@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Verity
+module Backwork
   class APIError < StandardError
     attr_reader :code, :details, :status_code
 

@@ -1,21 +1,35 @@
-# Verity Ruby SDK
+# Backwork Ruby SDK
 
-Official Ruby client for the [Verity API](https://verity.backworkai.com): Medicare coverage policies, medical code intelligence, prior authorization checks, claim validation, compliance review, and drug formulary evidence.
+Official Ruby client for the [Backwork API](https://backworkhealth.com): Medicare coverage policies, medical code intelligence, prior authorization checks, claim validation, compliance review, and drug formulary evidence.
 
 ## Installation
+
+The renamed gem is **not published on RubyGems as `backwork-sdk` yet**. Until it is,
+install the pre-rename gem, which ships the same client:
 
 ```bash
 gem install verity-sdk
 ```
+
+Or build this repository from source:
+
+```bash
+git clone https://github.com/tylergibbs1/verity-ruby.git  # repo not renamed yet
+cd verity-ruby
+gem build backwork-sdk.gemspec
+gem install ./backwork-sdk-*.gem
+```
+
+`gem install backwork-sdk` starts working once the gem is published under the new name.
 
 Requires Ruby 2.7 or newer.
 
 ## Quick Start
 
 ```ruby
-require 'verity'
+require 'backwork'
 
-client = Verity::Client.new(api_key: 'vrt_live_YOUR_API_KEY')
+client = Backwork::Client.new(api_key: 'bwk_live_YOUR_API_KEY')
 
 code = client.codes.lookup('76942', include: ['rvu', 'policies'])
 puts code['data']['description']
@@ -30,7 +44,9 @@ prior_auth = client.prior_auth.check(
 puts prior_auth['data']['pa_required']
 ```
 
-Get an API key from the [Verity dashboard](https://verity.backworkai.com/dashboard).
+Get an API key from the [Backwork dashboard](https://backworkhealth.com/dashboard).
+New keys are issued with a `bwk_` prefix. Existing `vrt_` keys are still valid and
+need no action.
 
 ## Core Workflows
 
@@ -103,30 +119,39 @@ stats = client.compliance.stats
 formulary = client.drugs.formulary('ozempic', payer: 'all', limit: 5)
 ```
 
+## Migrating from `verity-sdk`
+
+Nothing is required immediately. `require 'verity'` and the `Verity` constant are
+kept as deprecated aliases of `require 'backwork'` and `Backwork`, and the API
+accepts both `vrt_` and `bwk_` keys. The aliases go away in the next major
+version, so move to `Backwork` when convenient.
+
 ## Error Handling
 
 ```ruby
 begin
   result = client.codes.lookup('76942')
-rescue Verity::AuthError => e
+rescue Backwork::AuthError => e
   puts "Invalid API key: #{e.message}"
-rescue Verity::ValidationError => e
+rescue Backwork::ValidationError => e
   puts "Invalid request: #{e.message}"
-rescue Verity::NotFoundError => e
+rescue Backwork::NotFoundError => e
   puts "Resource not found: #{e.message}"
-rescue Verity::RateLimitError => e
+rescue Backwork::RateLimitError => e
   puts "Rate limit exceeded: #{e.message}"
-rescue Verity::APIError => e
-  puts "Verity API error: #{e.message}"
+rescue Backwork::APIError => e
+  puts "Backwork API error: #{e.message}"
 end
 ```
 
 ## Configuration
 
 ```ruby
-client = Verity::Client.new(
-  api_key: ENV.fetch('VERITY_API_KEY'),
-  base_url: 'https://verity.backworkai.com/api/v1',
+client = Backwork::Client.new(
+  # BACKWORK_API_KEY is the new name; VERITY_API_KEY is still read as a fallback
+  # so environments provisioned before the rename keep working.
+  api_key: ENV['BACKWORK_API_KEY'] || ENV.fetch('VERITY_API_KEY'),
+  base_url: 'https://backworkhealth.com/api/v1',
   timeout: 30
 )
 ```
@@ -135,25 +160,26 @@ client = Verity::Client.new(
 
 ```bash
 bundle install
-ruby -c lib/verity.rb
-gem build verity-sdk.gemspec
+ruby -c lib/backwork.rb
+gem build backwork-sdk.gemspec
 bundle exec rake build
 ```
 
 ## Release
 
-The gem publishes to RubyGems.org as `verity-sdk`.
+The gem is intended to publish to RubyGems.org as `backwork-sdk`. It has not been
+published under that name yet.
 
-1. Configure a RubyGems Trusted Publisher for `backworkai/verity-ruby`, workflow `release.yml`, environment `release`, gem name `verity-sdk`.
-2. Update `lib/verity/version.rb`.
+1. Rename the GitHub repository to `tylergibbs1/backwork-ruby`, then configure a RubyGems Trusted Publisher for it, workflow `release.yml`, environment `release`, gem name `backwork-sdk`.
+2. Update `lib/backwork/version.rb`.
 3. Push a matching tag, for example `v1.0.0`.
 4. The release workflow builds and pushes the gem through RubyGems OIDC trusted publishing.
 
 ## Support
 
-- Documentation: https://verity.backworkai.com/docs
-- Issues: https://github.com/backworkai/verity-ruby/issues
-- Email: support@verity.backworkai.com
+- Documentation: https://backworkhealth.com/docs
+- Issues: https://github.com/tylergibbs1/backwork-ruby/issues
+- Email: support@backworkhealth.com
 
 ## License
 
