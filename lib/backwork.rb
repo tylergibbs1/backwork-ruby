@@ -20,8 +20,3 @@ require_relative 'backwork/resources/drugs'
 module Backwork
   class Error < StandardError; end
 end
-
-# Deprecated alias for the pre-rename module name, so code written against
-# `Verity::Client` keeps running unchanged after the gem became backwork-sdk.
-# Remove in the next major version, once no consumer references `Verity`.
-Verity = Backwork
